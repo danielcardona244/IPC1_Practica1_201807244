@@ -1,25 +1,103 @@
 package Vista;
 
+import Controlador.ControladorArchivoProductos;
+import Modelo.Producto;
+import javax.swing.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EstacionTrabajo extends javax.swing.JFrame {
-
-  
-    
-    
     private String codigoProducto;
     private int cantidad;
+    
+    private static final Map<String, Integer> TIEMPOS_ENSAMBLADO = new HashMap<>();
+    private static final Map<String, Integer> TIEMPOS_PINTURA = new HashMap<>();
+    
+    static {
+        TIEMPOS_ENSAMBLADO.put("metal", 15);
+        TIEMPOS_ENSAMBLADO.put("madera", 25);
+        TIEMPOS_ENSAMBLADO.put("vidrio", 10);
+        TIEMPOS_ENSAMBLADO.put("nylon", 20);
+        TIEMPOS_ENSAMBLADO.put("hule", 10);
+        TIEMPOS_ENSAMBLADO.put("poliester", 5);
+        
+        TIEMPOS_PINTURA.put("verde", 15);
+        TIEMPOS_PINTURA.put("negro", 25);
+        TIEMPOS_PINTURA.put("NA", 0);
+        TIEMPOS_PINTURA.put("azul", 20);
+        TIEMPOS_PINTURA.put("rojo", 10);
+        TIEMPOS_PINTURA.put("amarillo", 5);
+    }
 
-    // Constructor que recibe el código de producto y la cantidad
     public EstacionTrabajo(String codigoProducto, int cantidad) {
         initComponents();
         this.codigoProducto = codigoProducto;
         this.cantidad = cantidad;
-        
-        // Aquí puedes iniciar los hilos o tareas para simular el ensamblado, pintado y empaquetado
-       
+        iniciarProduccion();
     }
+
     public EstacionTrabajo() {
         initComponents();
+    }
+
+    private void iniciarProduccion() {
+        ControladorArchivoProductos controlador = new ControladorArchivoProductos();
+        List<Producto> productos = controlador.leerProductosDesdeCSV();
+        Producto productoActual = null;
+        
+        for (Producto p : productos) {
+            if (p.getCodigo().equals(codigoProducto)) {
+                productoActual = p;
+                break;
+            }
+        }
+        
+        if (productoActual == null) {
+            JOptionPane.showMessageDialog(this, "Producto no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int tiempoEnsamblado = TIEMPOS_ENSAMBLADO.getOrDefault(productoActual.getMaterial().toLowerCase(), 10) * cantidad;
+        int tiempoPintura = TIEMPOS_PINTURA.getOrDefault(productoActual.getColor().toLowerCase(), 10) * cantidad;
+        int tiempoEmpaquetado = 10 * cantidad;  // 10 segundos por unidad
+        
+        new Thread(() -> {
+            actualizarBarra(jProgressBar1, tiempoEnsamblado, "Ensamblado");
+            actualizarBarra(jProgressBar2, tiempoPintura, "Pintura");
+            actualizarBarra(jProgressBar3, tiempoEmpaquetado, "Empaquetado");
+        }).start();
+    }
+
+    private void actualizarBarra(JProgressBar barra, int tiempoTotal, String proceso) {
+        for (int i = 0; i <= 100; i++) {
+            final int progreso = i;
+            SwingUtilities.invokeLater(() -> {
+                barra.setValue(progreso);
+                actualizarEtiquetas(proceso, progreso);
+            });
+            try {
+                Thread.sleep(tiempoTotal * 10); // Convertir segundos a milisegundos y dividir por 100 para los pasos
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void actualizarEtiquetas(String proceso, int progreso) {
+        switch (proceso) {
+            case "Ensamblado":
+                jLabel2.setText("Ensamblaje: " + progreso + "%");
+                break;
+            case "Pintura":
+                jLabel3.setText("Pintura: " + progreso + "%");
+                break;
+            case "Empaquetado":
+                jLabel4.setText("Empaque: " + progreso + "%");
+                break;
+        }
+        jLabel6.setText("Productos: " + codigoProducto);
+        jLabel5.setText("Cantidad: " + cantidad);
     }
 
     /**

@@ -25,7 +25,7 @@ public class EstacionCarga extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        bttmCarga = new javax.swing.JButton();
         bttmProd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -34,10 +34,10 @@ public class EstacionCarga extends javax.swing.JFrame {
 
         jLabel1.setText("Estación de Carga");
 
-        jButton1.setText("Cargar Producto");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bttmCarga.setText("Cargar Producto");
+        bttmCarga.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bttmCargaActionPerformed(evt);
             }
         });
 
@@ -80,7 +80,7 @@ public class EstacionCarga extends javax.swing.JFrame {
                         .addComponent(bttmProd))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
-                        .addComponent(jButton1))
+                        .addComponent(bttmCarga))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(65, 65, 65)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -95,7 +95,7 @@ public class EstacionCarga extends javax.swing.JFrame {
                 .addGap(52, 52, 52)
                 .addComponent(jLabel1)
                 .addGap(40, 40, 40)
-                .addComponent(jButton1)
+                .addComponent(bttmCarga)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
@@ -106,7 +106,7 @@ public class EstacionCarga extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bttmCargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttmCargaActionPerformed
         
      // Cargar los productos desde el archivo CSV y llenar la tabla
     ControladorArchivoProductos controlador = new ControladorArchivoProductos();
@@ -128,7 +128,7 @@ public class EstacionCarga extends javax.swing.JFrame {
         });
     }         
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bttmCargaActionPerformed
 
     private void bttmProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttmProdActionPerformed
         // TODO add your handling code here:
@@ -177,8 +177,8 @@ public class EstacionCarga extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bttmCarga;
     private javax.swing.JButton bttmProd;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
