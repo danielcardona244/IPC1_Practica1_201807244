@@ -4,6 +4,10 @@
  */
 package Vista;
 
+import Controlador.ControladorArchivoProductos;
+import Modelo.Producto;
+import java.util.List;
+
 /**
  *
  * @author cardo
@@ -28,17 +32,28 @@ public class Produccion extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtCod = new javax.swing.JTextField();
+        txtCantidad = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Código");
 
         jLabel2.setText("Cantidad");
 
+        txtCod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodActionPerformed(evt);
+            }
+        });
+
         jButton1.setText("Producir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -53,8 +68,8 @@ public class Produccion extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                            .addComponent(jTextField2)))
+                            .addComponent(txtCod, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                            .addComponent(txtCantidad)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(121, 121, 121)
                         .addComponent(jButton1)))
@@ -66,11 +81,11 @@ public class Produccion extends javax.swing.JFrame {
                 .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(16, 16, 16))
@@ -78,6 +93,47 @@ public class Produccion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+    
+    String codigoProducto = txtCod.getText(); 
+    int cantidad;
+    
+    try {
+        cantidad = Integer.parseInt(txtCantidad.getText());
+    } catch (NumberFormatException e) {
+        // mostrar el mensaje si la cantidad no esta en numeros
+        javax.swing.JOptionPane.showMessageDialog(this, "Por favor, ingresa una cantidad válida, en numeros", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // llamando a mi metodo que lee el archivo
+    ControladorArchivoProductos controlador = new ControladorArchivoProductos();
+    List<Producto> productos = controlador.leerProductosDesdeCSV(); // Leer productos del archivo CSV
+
+    // Verificar si el código del producto existe
+    boolean codigoExiste = false;
+    for (Producto producto : productos) {
+        if (producto.getCodigo().equals(codigoProducto)) {
+            codigoExiste = true;
+            break;
+        }
+    }
+    if (!codigoExiste) {
+        javax.swing.JOptionPane.showMessageDialog(this, "El código de producto no existe", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        return; 
+    }
+    // Si el código es válido, pasar a la estación de trabajo
+    EstacionTrabajo ETra = new EstacionTrabajo(codigoProducto, cantidad);
+    ETra.setVisible(true);
+    this.dispose(); 
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -118,7 +174,7 @@ public class Produccion extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtCod;
     // End of variables declaration//GEN-END:variables
 }

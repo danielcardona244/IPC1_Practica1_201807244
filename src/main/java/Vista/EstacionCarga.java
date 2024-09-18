@@ -26,7 +26,7 @@ public class EstacionCarga extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        bttmProd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -41,7 +41,12 @@ public class EstacionCarga extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Producir");
+        bttmProd.setText("Producir");
+        bttmProd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttmProdActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -72,7 +77,7 @@ public class EstacionCarga extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(202, 202, 202)
-                        .addComponent(jButton2))
+                        .addComponent(bttmProd))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(jButton1))
@@ -94,7 +99,7 @@ public class EstacionCarga extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(bttmProd)
                 .addGap(26, 26, 26))
         );
 
@@ -124,6 +129,17 @@ public class EstacionCarga extends javax.swing.JFrame {
     }         
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void bttmProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttmProdActionPerformed
+        // TODO add your handling code here:
+        
+        Produccion Prod = new Produccion();
+        Prod.setLocationRelativeTo(null);
+        Prod.setVisible(true);
+        
+        
+        
+    }//GEN-LAST:event_bttmProdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,8 +177,8 @@ public class EstacionCarga extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bttmProd;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

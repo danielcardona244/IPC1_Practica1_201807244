@@ -36,9 +36,9 @@ public class EstacionResultados extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        bttmRegresar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Estacion de Carga");
 
@@ -60,7 +60,12 @@ public class EstacionResultados extends javax.swing.JFrame {
 
         jLabel10.setText("Tiempo c/u:");
 
-        jButton1.setText("Regresar a Estación de Carga");
+        bttmRegresar.setText("Regresar a Estación de Carga");
+        bttmRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttmRegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,7 +93,7 @@ public class EstacionResultados extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addComponent(jButton1)))
+                        .addComponent(bttmRegresar)))
                 .addContainerGap(71, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -117,12 +122,19 @@ public class EstacionResultados extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addGap(26, 26, 26)
-                .addComponent(jButton1)
+                .addComponent(bttmRegresar)
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bttmRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttmRegresarActionPerformed
+        // TODO add your handling code here:
+        EstacionCarga ECarga = new EstacionCarga();
+        ECarga.setLocationRelativeTo(null);
+        ECarga.setVisible(true);
+    }//GEN-LAST:event_bttmRegresarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,7 +172,7 @@ public class EstacionResultados extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton bttmRegresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

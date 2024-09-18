@@ -1,18 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Vista;
 
-/**
- *
- * @author cardo
- */
+
 public class EstacionTrabajo extends javax.swing.JFrame {
 
-    /**
-     * Creates new form EstacionTrabajo
-     */
+  
+    
+    
+    private String codigoProducto;
+    private int cantidad;
+
+    // Constructor que recibe el código de producto y la cantidad
+    public EstacionTrabajo(String codigoProducto, int cantidad) {
+        initComponents();
+        this.codigoProducto = codigoProducto;
+        this.cantidad = cantidad;
+        
+        // Aquí puedes iniciar los hilos o tareas para simular el ensamblado, pintado y empaquetado
+       
+    }
     public EstacionTrabajo() {
         initComponents();
     }
@@ -36,7 +41,7 @@ public class EstacionTrabajo extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Estación de Trabajo");
 
