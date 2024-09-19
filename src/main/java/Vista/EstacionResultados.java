@@ -1,20 +1,43 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Vista;
 
-/**
- *
- * @author cardo
- */
+import Modelo.Producto;
+
 public class EstacionResultados extends javax.swing.JFrame {
 
-    /**
-     * Creates new form EstacionResultados
-     */
-    public EstacionResultados() {
+    private Producto producto;
+    private int cantidad;
+    private long tiempoTotal;
+    private double costoTotal;
+
+    public EstacionResultados(Producto producto, int cantidad, long tiempoTotal, double costoTotal) {
         initComponents();
+        this.producto = producto;
+        this.cantidad = cantidad;
+        this.tiempoTotal = tiempoTotal;
+        this.costoTotal = costoTotal;
+        actualizarResultados();
+    }
+    private void actualizarResultados() {
+        jLabel2.setText("Producto: " + producto.getCodigo());
+        jLabel3.setText("Nombre: " + producto.getNombre());
+        jLabel4.setText("Color: " + producto.getColor());
+        jLabel5.setText("Material: " + producto.getMaterial());
+        jLabel6.setText("Cantidad: " + cantidad);
+        jLabel7.setText("Costo total: " + formatearMoneda(costoTotal));
+        jLabel8.setText("Costo c/u: " + formatearMoneda(costoTotal / cantidad));
+        jLabel9.setText("Tiempo total: " + formatearTiempo(tiempoTotal));
+        jLabel10.setText("Tiempo c/u: " + formatearTiempo(tiempoTotal / cantidad));
+    }
+
+    private String formatearMoneda(double monto) {
+        return String.format("Q%.2f", monto);
+    }
+
+    private String formatearTiempo(long milisegundos) {
+        long totalSegundos = milisegundos / 1000;
+        long minutos = totalSegundos / 60;
+        long segundos = totalSegundos % 60;
+        return String.format("%02d:%02d", minutos, segundos);
     }
 
     /**
@@ -139,7 +162,7 @@ public class EstacionResultados extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+ public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -166,7 +189,9 @@ public class EstacionResultados extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EstacionResultados().setVisible(true);
+                // Esto es solo para propósitos de prueba
+                Producto testProducto = new Producto("P-01", "Vaso", "Vidrio", "Rojo");
+                new EstacionResultados(testProducto, 10, 150000, 20.00).setVisible(true);
             }
         });
     }

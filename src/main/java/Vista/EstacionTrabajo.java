@@ -10,6 +10,9 @@ import java.util.Map;
 public class EstacionTrabajo extends javax.swing.JFrame {
     private String codigoProducto;
     private int cantidad;
+    private Producto productoActual;
+    private long tiempoInicio;
+    private Timer timerContador;
     
     private static final Map<String, Integer> TIEMPOS_ENSAMBLADO = new HashMap<>();
     private static final Map<String, Integer> TIEMPOS_PINTURA = new HashMap<>();
@@ -24,7 +27,7 @@ public class EstacionTrabajo extends javax.swing.JFrame {
         
         TIEMPOS_PINTURA.put("verde", 15);
         TIEMPOS_PINTURA.put("negro", 25);
-        TIEMPOS_PINTURA.put("NA", 0);
+        TIEMPOS_PINTURA.put("na", 0);
         TIEMPOS_PINTURA.put("azul", 20);
         TIEMPOS_PINTURA.put("rojo", 10);
         TIEMPOS_PINTURA.put("amarillo", 5);
@@ -37,14 +40,9 @@ public class EstacionTrabajo extends javax.swing.JFrame {
         iniciarProduccion();
     }
 
-    public EstacionTrabajo() {
-        initComponents();
-    }
-
     private void iniciarProduccion() {
         ControladorArchivoProductos controlador = new ControladorArchivoProductos();
         List<Producto> productos = controlador.leerProductosDesdeCSV();
-        Producto productoActual = null;
         
         for (Producto p : productos) {
             if (p.getCodigo().equals(codigoProducto)) {
@@ -60,12 +58,16 @@ public class EstacionTrabajo extends javax.swing.JFrame {
         
         int tiempoEnsamblado = TIEMPOS_ENSAMBLADO.getOrDefault(productoActual.getMaterial().toLowerCase(), 10) * cantidad;
         int tiempoPintura = TIEMPOS_PINTURA.getOrDefault(productoActual.getColor().toLowerCase(), 10) * cantidad;
-        int tiempoEmpaquetado = 10 * cantidad;  // 10 segundos por unidad
+        int tiempoEmpaquetado = 10 * cantidad;  // este sabemos que es fijo
         
+        tiempoInicio = System.currentTimeMillis();
+        iniciarContadorTiempo();
+
         new Thread(() -> {
             actualizarBarra(jProgressBar1, tiempoEnsamblado, "Ensamblado");
             actualizarBarra(jProgressBar2, tiempoPintura, "Pintura");
             actualizarBarra(jProgressBar3, tiempoEmpaquetado, "Empaquetado");
+            finalizarProduccion();
         }).start();
     }
 
@@ -97,7 +99,32 @@ public class EstacionTrabajo extends javax.swing.JFrame {
                 break;
         }
         jLabel6.setText("Productos: " + codigoProducto);
-        jLabel5.setText("Cantidad: " + cantidad);
+    }
+
+    private void iniciarContadorTiempo() {
+        timerContador = new Timer(1000, e -> {
+            long tiempoTranscurrido = System.currentTimeMillis() - tiempoInicio;
+            jLabel5.setText("Tiempo: " + formatearTiempo(tiempoTranscurrido));
+        });
+        timerContador.start();
+    }
+
+    private void finalizarProduccion() {
+        SwingUtilities.invokeLater(() -> {
+            timerContador.stop();
+            long tiempoTotal = System.currentTimeMillis() - tiempoInicio;
+            double costoTotal = productoActual.calcularCostoProduccion() * cantidad;
+            EstacionResultados resultados = new EstacionResultados(productoActual, cantidad, tiempoTotal, costoTotal);
+            resultados.setVisible(true);
+            this.dispose();
+        });
+    }
+
+    private String formatearTiempo(long milisegundos) {
+        long totalSegundos = milisegundos / 1000;
+        long minutos = totalSegundos / 60;
+        long segundos = totalSegundos % 60;
+        return String.format("%02d:%02d", minutos, segundos);
     }
 
     /**
@@ -138,7 +165,7 @@ public class EstacionTrabajo extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(92, 92, 92)
+                .addGap(83, 83, 83)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
@@ -221,7 +248,7 @@ public class EstacionTrabajo extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EstacionTrabajo().setVisible(true);
+                new EstacionTrabajo( "codigoProducto", 0).setVisible(true);
             }
         });
     }
