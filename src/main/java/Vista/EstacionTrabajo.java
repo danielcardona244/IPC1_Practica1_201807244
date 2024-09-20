@@ -17,6 +17,7 @@ public class EstacionTrabajo extends javax.swing.JFrame {
     private static final Map<String, Integer> TIEMPOS_ENSAMBLADO = new HashMap<>();
     private static final Map<String, Integer> TIEMPOS_PINTURA = new HashMap<>();
     
+        //inicializador 
     static {
         TIEMPOS_ENSAMBLADO.put("metal", 15);
         TIEMPOS_ENSAMBLADO.put("madera", 25);
@@ -83,7 +84,7 @@ public class EstacionTrabajo extends javax.swing.JFrame {
         
         tiempoInicio = System.currentTimeMillis();
         iniciarContadorTiempo();
-
+        //hilo principal
         new Thread(() -> {
             actualizarBarra(jProgressBar1, tiempoEnsamblado, "Ensamblado");
             actualizarBarra(jProgressBar2, tiempoPintura, "Pintura");
@@ -91,7 +92,7 @@ public class EstacionTrabajo extends javax.swing.JFrame {
             finalizarProduccion();
         }).start();
     }
-
+        //simula la etapa
     private void actualizarBarra(JProgressBar barra, int tiempoTotal, String proceso) {
         for (int i = 0; i <= 100; i++) {
             final int progreso = i;
@@ -129,7 +130,7 @@ public class EstacionTrabajo extends javax.swing.JFrame {
         });
         timerContador.start();
     }
-
+    //detiene el timer, calcula los resultados finales y abre la estacion de resultados
     private void finalizarProduccion() {
         SwingUtilities.invokeLater(() -> {
             timerContador.stop();
