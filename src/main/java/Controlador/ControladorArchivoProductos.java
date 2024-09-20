@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ControladorArchivoProductos {
-    private final String rutaArchivo = "C:\\Users\\cardo\\OneDrive\\Escritorio\\productos1.csv";
+    private final String rutaArchivo = "C:\\Users\\cardo\\OneDrive\\Escritorio\\productos1.csv";//ubicacion de mi csv
 
     public List<Producto> leerProductosDesdeCSV() {
         List<Producto> productos = new ArrayList<>();

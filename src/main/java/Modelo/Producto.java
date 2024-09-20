@@ -46,6 +46,7 @@ public class Producto {
         this.color = color;
     }
 
+    //tiempo de esanblado
    public int calcularTiempoEnsamblaje() {
         switch (material.toLowerCase()) {
             case "metal": return 15;
@@ -57,7 +58,8 @@ public class Producto {
             default: return 0;
         }
     }
-
+   
+   //tiempo de pintado
     public int calcularTiempoPintura() {
         switch (color.toLowerCase()) {
             case "verde": return 15;
@@ -70,6 +72,7 @@ public class Producto {
         }
     }
 
+    
     public double calcularCostoProduccion() {
         double costoEnsamblaje = obtenerCostoMaterial() * calcularTiempoEnsamblaje();
         double costoPintura = obtenerCostoPintura() * calcularTiempoPintura();
