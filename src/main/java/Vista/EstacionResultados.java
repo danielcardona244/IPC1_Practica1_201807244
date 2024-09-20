@@ -61,7 +61,7 @@ public class EstacionResultados extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         bttmRegresar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Estacion de Carga");
 
@@ -157,6 +157,7 @@ public class EstacionResultados extends javax.swing.JFrame {
         EstacionCarga ECarga = new EstacionCarga();
         ECarga.setLocationRelativeTo(null);
         ECarga.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_bttmRegresarActionPerformed
 
     /**

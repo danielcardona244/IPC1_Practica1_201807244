@@ -46,7 +46,7 @@ public class Producto {
         this.color = color;
     }
 
-    public int calcularTiempoEnsamblaje() {
+   public int calcularTiempoEnsamblaje() {
         switch (material.toLowerCase()) {
             case "metal": return 15;
             case "madera": return 25;
@@ -54,7 +54,7 @@ public class Producto {
             case "nylon": return 20;
             case "hule": return 10;
             case "poliester": return 5;
-            default: return 10; 
+            default: return 0;
         }
     }
 
@@ -66,15 +66,14 @@ public class Producto {
             case "azul": return 20;
             case "rojo": return 10;
             case "amarillo": return 5;
-            default: return 10; 
+            default: return 0;
         }
     }
 
     public double calcularCostoProduccion() {
-        int tiempoTotal = calcularTiempoEnsamblaje() + calcularTiempoPintura() + 10; // 10 seconds for packaging
-        double costoMaterial = obtenerCostoMaterial();
-        double costoPintura = obtenerCostoPintura();
-        return tiempoTotal * (costoMaterial + costoPintura + 2); // 2 for packaging cost per second
+        double costoEnsamblaje = obtenerCostoMaterial() * calcularTiempoEnsamblaje();
+        double costoPintura = obtenerCostoPintura() * calcularTiempoPintura();
+        return costoEnsamblaje + costoPintura;
     }
 
     private double obtenerCostoMaterial() {
@@ -85,7 +84,7 @@ public class Producto {
             case "nylon": return 2.0;
             case "hule": return 5.0;
             case "poliester": return 4.0;
-            default: return 2.0;
+            default: return 0.0;
         }
     }
 
@@ -97,12 +96,7 @@ public class Producto {
             case "azul": return 2.0;
             case "rojo": return 5.0;
             case "amarillo": return 4.0;
-            default: return 2.0; 
+            default: return 0.0;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Producto [Codigo=" + codigo + ", Nombre=" + nombre + ", Color=" + color + ", Material=" + material + "]";
     }
 }

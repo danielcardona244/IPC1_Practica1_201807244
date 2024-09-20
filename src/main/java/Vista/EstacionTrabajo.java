@@ -37,10 +37,14 @@ public class EstacionTrabajo extends javax.swing.JFrame {
         initComponents();
         this.codigoProducto = codigoProducto;
         this.cantidad = cantidad;
-        iniciarProduccion();
+        if (validarProducto()) {
+            iniciarProduccion();
+        } else {
+            this.dispose();
+        }
     }
 
-    private void iniciarProduccion() {
+    private boolean validarProducto() {
         ControladorArchivoProductos controlador = new ControladorArchivoProductos();
         List<Producto> productos = controlador.leerProductosDesdeCSV();
         
@@ -53,12 +57,29 @@ public class EstacionTrabajo extends javax.swing.JFrame {
         
         if (productoActual == null) {
             JOptionPane.showMessageDialog(this, "Producto no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
         
-        int tiempoEnsamblado = TIEMPOS_ENSAMBLADO.getOrDefault(productoActual.getMaterial().toLowerCase(), 10) * cantidad;
-        int tiempoPintura = TIEMPOS_PINTURA.getOrDefault(productoActual.getColor().toLowerCase(), 10) * cantidad;
-        int tiempoEmpaquetado = 10 * cantidad;  // este sabemos que es fijo
+        String material = productoActual.getMaterial().toLowerCase();
+        String color = productoActual.getColor().toLowerCase();
+        
+        if (!TIEMPOS_ENSAMBLADO.containsKey(material)) {
+            JOptionPane.showMessageDialog(this, "Material no válido: " + material, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        if (!TIEMPOS_PINTURA.containsKey(color)) {
+            JOptionPane.showMessageDialog(this, "Color no válido: " + color, "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        return true;
+    }
+
+    private void iniciarProduccion() {
+        int tiempoEnsamblado = productoActual.calcularTiempoEnsamblaje() * cantidad;
+        int tiempoPintura = productoActual.calcularTiempoPintura() * cantidad;
+        int tiempoEmpaquetado = 10 * cantidad;  // 10 segundos por unidad
         
         tiempoInicio = System.currentTimeMillis();
         iniciarContadorTiempo();
@@ -119,7 +140,6 @@ public class EstacionTrabajo extends javax.swing.JFrame {
             this.dispose();
         });
     }
-
     private String formatearTiempo(long milisegundos) {
         long totalSegundos = milisegundos / 1000;
         long minutos = totalSegundos / 60;

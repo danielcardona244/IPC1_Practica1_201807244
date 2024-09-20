@@ -136,6 +136,7 @@ public class EstacionCarga extends javax.swing.JFrame {
         Produccion Prod = new Produccion();
         Prod.setLocationRelativeTo(null);
         Prod.setVisible(true);
+        this.dispose();
         
         
         
